@@ -1,716 +1,293 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>The Think Room — Think Better • Live Lighter</title>  
-    <!-- Google Fonts for premium typography -->  
-    <link rel="preconnect" href="https://fonts.googleapis.com">  
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">  
-    <!-- FontAwesome for minimal social icons -->  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  <style>  
-    /* --- DESIGN TOKENS & VARIABLES --- */  
-    :root {  
-        --bg-color: #0F0F0F;  
-        --card-color: #1C1C1C;  
-        --text-color: #EAEAEA;  
-        --text-muted: #A0A0A0;  
-        --accent-color: #6BAF92;  
-        --accent-glow: rgba(107, 175, 146, 0.3);  
-        --font-sans: 'Inter', sans-serif;  
-        --font-serif: 'Playfair Display', serif;  
-        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);  
-    }  
-
-    /* --- BASE STYLES --- */  
-    * {  
-        margin: 0;  
-        padding: 0;  
-        box-sizing: border-box;  
-    }  
-
-    html {  
-        scroll-behavior: smooth;  
-    }  
-
-    body {  
-        background-color: var(--bg-color);  
-        color: var(--text-color);  
-        font-family: var(--font-sans);  
-        line-height: 1.6;  
-        overflow-x: hidden;  
-        -webkit-font-smoothing: antialiased;  
-    }  
-
-    .container {  
-        max-width: 1100px;  
-        margin: 0 auto;  
-        padding: 0 2rem;  
-    }  
-
-    a {  
-        text-decoration: none;  
-        color: inherit;  
-    }  
-
-    /* --- ANIMATIONS --- */  
-    @keyframes fadeInDown {  
-        from {  
-            opacity: 0;  
-            transform: translateY(-20px);  
-        }  
-        to {  
-            opacity: 1;  
-            transform: translateY(0);  
-        }  
-    }  
-
-    @keyframes fadeInUp {  
-        from {  
-            opacity: 0;  
-            transform: translateY(30px);  
-        }  
-        to {  
-            opacity: 1;  
-            transform: translateY(0);  
-        }  
-    }  
-
-    /* Scroll Animation Target Class */  
-    .scroll-reveal {  
-        opacity: 0;  
-        transform: translateY(40px);  
-        transition: var(--transition-smooth);  
-    }  
-
-    .scroll-reveal.active {  
-        opacity: 1;  
-        transform: translateY(0);  
-    }  
-
-    /* --- HERO SECTION --- */  
-    .hero {  
-        min-height: 85vh;  
-        display: flex;  
-        flex-direction: column;  
-        justify-content: center;  
-        align-items: center;  
-        text-align: center;  
-        padding: 4rem 2rem 2rem 2rem;  
-        animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;  
-    }  
-
-    .logo-container {  
-        width: 160px;  
-        margin-bottom: 2rem;  
-        transition: var(--transition-smooth);  
-    }  
-
-    .logo-container:hover {  
-        transform: scale(1.03);  
-    }  
-
-    .brand-logo {  
-        width: 100%;  
-        height: auto;  
-        object-fit: contain;  
-        filter: brightness(0.95);  
-    }  
-
-    .hero h1 {  
-        font-family: var(--font-serif);  
-        font-size: 3.5rem;  
-        font-weight: 400;  
-        letter-spacing: -0.5px;  
-        margin-bottom: 0.5rem;  
-    }  
-
-    .tagline {  
-        font-size: 1.1rem;  
-        color: var(--accent-color);  
-        letter-spacing: 2px;  
-        text-transform: uppercase;  
-        font-weight: 500;  
-        margin-bottom: 2.5rem;  
-    }  
-
-    /* --- NAVIGATION BUTTONS --- */  
-    .main-nav {  
-        display: flex;  
-        gap: 1rem;  
-        flex-wrap: wrap;  
-        justify-content: center;  
-        margin-bottom: 3rem;  
-    }  
-
-    .btn-nav {  
-        background: transparent;  
-        color: var(--text-color);  
-        border: 1px solid rgba(234, 234, 234, 0.15);  
-        padding: 0.75rem 1.5rem;  
-        border-radius: 30px;  
-        font-size: 0.9rem;  
-        font-weight: 500;  
-        cursor: pointer;  
-        transition: var(--transition-smooth);  
-    }  
-
-    .btn-nav:hover {  
-        border-color: var(--accent-color);  
-        color: var(--accent-color);  
-        transform: translateY(-2px);  
-        box-shadow: 0 4px 20px var(--accent-glow);  
-    }  
-
-    .btn-cta {  
-        background: var(--accent-color);  
-        color: var(--bg-color);  
-        border: none;  
-        padding: 1rem 2.5rem;  
-        border-radius: 30px;  
-        font-size: 1rem;  
-        font-weight: 600;  
-        cursor: pointer;  
-        box-shadow: 0 4px 15px rgba(107, 175, 146, 0.2);  
-        transition: var(--transition-smooth);  
-    }  
-
-    .btn-cta:hover {  
-        transform: translateY(-3px) scale(1.02);  
-        box-shadow: 0 8px 25px var(--accent-glow);  
-        background: #7bc2a3;  
-    }  
-
-    /* --- AUTOMATIC CAROUSEL SLIDER --- */  
-    .slider-section {  
-        padding: 6rem 0;  
-        background: linear-gradient(180deg, var(--bg-color) 0%, #141414 50%, var(--bg-color) 100%);  
-    }  
-
-    .carousel {  
-        position: relative;  
-        max-width: 800px;  
-        margin: 0 auto;  
-        height: 160px;  
-        display: flex;  
-        align-items: center;  
-        justify-content: center;  
-        overflow: hidden;  
-    }  
-
-    .slide {  
-        position: absolute;  
-        opacity: 0;  
-        transform: scale(0.95) translateY(10px);  
-        transition: opacity 0.8s ease, transform 0.8s ease;  
-        text-align: center;  
-        width: 100%;  
-        pointer-events: none;  
-    }  
-
-    .slide.active {  
-        opacity: 1;  
-        transform: scale(1) translateY(0);  
-        pointer-events: auto;  
-    }  
-
-    .slide-text {  
-        font-family: var(--font-serif);  
-        font-size: 2.2rem;  
-        font-style: italic;  
-        color: var(--text-color);  
-        line-height: 1.4;  
-    }  
-
-    /* --- CONTENT CARDS --- */  
-    .cards-section {  
-        padding: 6rem 0;  
-    }  
-
-    .section-title {  
-        text-align: center;  
-        font-family: var(--font-serif);  
-        font-size: 2rem;  
-        margin-bottom: 3rem;  
-        font-weight: 400;  
-    }  
-
-    .grid-layout {  
-        display: grid;  
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
-        gap: 2rem;  
-    }  
-
-    .card {  
-        background-color: var(--card-color);  
-        border: 1px solid rgba(255, 255, 255, 0.03);  
-        border-radius: 16px;  
-        padding: 2.5rem 2rem;  
-        transition: var(--transition-smooth);  
-        display: flex;  
-        flex-direction: column;  
-        justify-content: space-between;  
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);  
-    }  
-
-    .card:hover {  
-        transform: translateY(-10px);  
-        border-color: rgba(107, 175, 146, 0.3);  
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(107, 175, 146, 0.05);  
-    }  
-
-    .card-icon {  
-        color: var(--accent-color);  
-        font-size: 1.5rem;  
-        margin-bottom: 1.5rem;  
-    }  
-
-    .card h3 {  
-        font-size: 1.3rem;  
-        margin-bottom: 1rem;  
-        font-weight: 500;  
-    }  
-
-    .card p {  
-        color: var(--text-muted);  
-        font-size: 0.95rem;  
-        margin-bottom: 1.5rem;  
-        flex-grow: 1;  
-    }  
-
-    .card-link {  
-        color: var(--accent-color);  
-        font-size: 0.9rem;  
-        font-weight: 500;  
-        display: inline-flex;  
-        align-items: center;  
-        gap: 0.5rem;  
-        transition: var(--transition-smooth);  
-    }  
-
-    .card-link:hover gap {  
-        gap: 0.8rem;  
-    }  
-
-    /* --- DAILY THOUGHT SECTION --- */  
-    .daily-thought {  
-        padding: 6rem 0;  
-    }  
-
-    .thought-box {  
-        background-color: var(--card-color);  
-        border-left: 4px solid var(--accent-color);  
-        border-radius: 0 16px 16px 0;  
-        padding: 3.5rem;  
-        text-align: center;  
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);  
-        max-width: 850px;  
-        margin: 0 auto;  
-    }  
-
-    .thought-box h2 {  
-        font-size: 1.1rem;  
-        letter-spacing: 2px;  
-        text-transform: uppercase;  
-        color: var(--accent-color);  
-        margin-bottom: 1.5rem;  
-    }  
-
-    .thought-quote {  
-        font-family: var(--font-serif);  
-        font-size: 1.8rem;  
-        line-height: 1.5;  
-        margin-bottom: 1rem;  
-    }  
-
-    /* --- SOCIAL SECTION --- */  
-    .social-section {  
-        padding: 4rem 0;  
-        text-align: center;  
-    }  
-
-    .social-title {  
-        font-size: 0.9rem;  
-        letter-spacing: 3px;  
-        text-transform: uppercase;  
-        color: var(--text-muted);  
-        margin-bottom: 1.5rem;  
-    }  
-
-    .social-icons {  
-        display: flex;  
-        justify-content: center;  
-        gap: 2rem;  
-    }  
-
-    .social-icon {  
-        font-size: 1.8rem;  
-        color: var(--text-muted);  
-        transition: var(--transition-smooth);  
-    }  
-
-    .social-icon:hover {  
-        color: var(--accent-color);  
-        transform: translateY(-4px) scale(1.1);  
-    }  
-
-    /* --- FOOTER --- */  
-    footer {  
-        border-top: 1px solid rgba(255, 255, 255, 0.05);  
-        padding: 3rem 0;  
-        text-align: center;  
-    }  
-
-    footer p {  
-        font-size: 0.9rem;  
-        color: var(--text-muted);  
-        margin-bottom: 0.5rem;  
-    }  
-
-    footer .footer-tagline {  
-        font-size: 0.8rem;  
-        color: rgba(234, 234, 234, 0.3);  
-        letter-spacing: 1px;  
-    }  
-
-    /* --- RESPONSIVE MEDIA QUERIES --- */  
-    @media (max-width: 768px) {  
-        .hero h1 {  
-            font-size: 2.5rem;  
-        }  
-        .slide-text {  
-            font-size: 1.5rem;  
-        }  
-        .carousel {  
-            height: 120px;  
-        }  
-        .thought-box {  
-            padding: 2rem;  
-        }  
-        .thought-quote {  
-            font-size: 1.4rem;  
-        }  
-        .main-nav {  
-            flex-direction: column;  
-            width: 100%;  
-            max-width: 300px;  
-        }  
-        .btn-nav {  
-            text-align: center;  
-            width: 100%;  
-        }  
-    }  
-</style>
-
-</head>  
-<body>  <!-- HERO SECTION -->  
-<header class="hero">  
-    <div class="logo-container">  
-        <!-- Ensure your uploaded logo is saved as "logo.jpg" in the same directory -->  
-        <img src="logo.jpg" alt="The Think Room Logo" class="brand-logo">  
-    </div>  
-    <h1>The Think Room</h1>  
-    <p class="tagline">Think Better • Live Lighter</p>  
-      
-    <!-- NAVIGATION BUTTONS -->  
-    <nav class="main-nav">  
-        <a href="#explore" class="btn-nav">Explore Thoughts</a>  
-        <a href="#lessons" class="btn-nav">Read Lessons</a>  
-        <a href="#insights" class="btn-nav">Book Insights</a>  
-        <a href="#community" class="btn-nav">Join Community</a>  
-    </nav>  
-
-    <a href="#explore" class="btn-cta">Start Exploring</a>  
-</header>  
-
-<!-- AUTOMATIC SLIDER -->  
-<section class="slider-section scroll-reveal">  
-    <div class="container">  
-        <div class="carousel">  
-            <div class="slide active">  
-                <p class="slide-text">"You don’t need more time, you need more clarity."</p>  
-            </div>  
-            <div class="slide">  
-                <p class="slide-text">"Slow down. Not everything needs urgency."</p>  
-            </div>  
-            <div class="slide">  
-                <p class="slide-text">"Your mind becomes what you feed it."</p>  
-            </div>  
-            <div class="slide">  
-                <p class="slide-text">"Clarity begins the moment you decide to drop what isn't yours."</p>  
-            </div>  
-        </div>  
-    </div>  
-</section>  
-
-<!-- CONTENT CARDS -->  
-<section id="explore" class="cards-section scroll-reveal">  
-    <div class="container">  
-        <h2 class="section-title">Curated Spaces</h2>  
-        <div class="grid-layout">  
-            <!-- Card 1 -->  
-            <div class="card" id="lessons">  
-                <div>  
-                    <div class="card-icon"><i class="fa-regular fa-compass"></i></div>  
-                    <h3>Quotes</h3>  
-                    <p>Bite-sized fragments of mindfulness designed to realign your day and break cyclical patterns of overthinking.</p>  
-                </div>  
-                <a href="#" class="card-link">View Gallery &rarr;</a>  
-            </div>  
-            <!-- Card 2 -->  
-            <div class="card">  
-                <div>  
-                    <div class="card-icon"><i class="fa-regular fa-lightbulb"></i></div>  
-                    <h3>Lessons</h3>  
-                    <p>Deep-dive essays and minimalist blueprints regarding productivity, intentional living, and intentional frameworks.</p>  
-                </div>  
-                <a href="#" class="card-link">Read Essays &rarr;</a>  
-            </div>  
-            <!-- Card 3 -->  
-            <div class="card" id="insights">  
-                <div>  
-                    <div class="card-icon"><i class="fa-regular fa-bookmark"></i></div>  
-                    <h3>Book Insights</h3>  
-                    <p>Distilled summaries and high-impact wisdom architecture gathered from the world's most transformational literature.</p>  
-                </div>  
-                <a href="#" class="card-link">Explore Books &rarr;</a>  
-            </div>  
-        </div>  
-    </div>  
-</section>  
-
-<!-- DAILY THOUGHT SECTION -->  
-<section class="daily-thought scroll-reveal">  
-    <div class="container">  
-        <div class="thought-box">  
-            <h2>Thought of the Day 🌿</h2>  
-            <p class="thought-quote">"The ability to observe an impulse without automatically satisfying it is the ultimate psychological superpower."</p>  
-        </div>  
-    </div>  
-</section>  
-
-<!-- SOCIAL SECTION -->  
-<section id="community" class="social-section scroll-reveal">  
-    <div class="container">  
-        <h3 class="social-title">Enter The Conversation</h3>  
-        <div class="social-icons">  
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">  
-                <i class="fa-brands fa-instagram"></i>  
-            </a>  
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">  
-                <i class="fa-brands fa-x-twitter"></i>  
-            </a>  
-        </div>  
-    </div>  
-</section>  
-
-<!-- FOOTER -->  
-<footer>  
-    <div class="container">  
-        <p>&copy; The Think Room</p>  
-        <p class="footer-tagline">Think Better • Live Lighter</p>  
-    </div>  
-</footer>  
-
-<!-- JAVASCRIPT FOR CAROUSEL & SCROLL ANIMATIONS -->  
-<script>  
-    // --- CAROUSEL SLIDER LOGIC ---  
-    const slides = document.querySelectorAll('.slide');  
-    let currentSlide = 0;  
-    const slideInterval = 3000; // 3 seconds  
-
-    function nextSlide() {  
-        // Remove active status from current slide  
-        slides[currentSlide].classList.remove('active');  
-          
-        // Loop forward, reset back to 0 if out of index bounds  
-        currentSlide = (currentSlide + 1) % slides.length;  
-          
-        // Add active status to new slide  
-        slides[currentSlide].classList.add('active');  
-    }  
-
-    // Run slide loop automatically  
-    setInterval(nextSlide, slideInterval);  
-
-
-    // --- FADE-IN ON SCROLL LOGIC ---  
-    const revealElements = document.querySelectorAll('.scroll-reveal');  
-
-    function checkReveal() {  
-        const triggerBottom = window.innerHeight * 0.85;  
-
-        revealElements.forEach(element => {  
-            const elementTop = element.getBoundingClientRect().top;  
-
-            if (elementTop < triggerBottom) {  
-                element.classList.add('active');  
-            }  
-        });  
-    }  
-
-    // Trigger on scroll and once on initial document ready execution  
-    window.addEventListener('scroll', checkReveal);  
-    window.addEventListener('DOMContentLoaded', checkReveal);  
-</script>
-
-</body>  
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>The Think Room</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Think Room</title>
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #F5F5DC;
-      color: #2E2E2E;
-      text-align: center;
-    }
+<style>
 
-    header {
-      padding: 80px 20px;
-      background: #E8EAD8;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
+body {
+  background: radial-gradient(circle at top, #111, #000);
+  color: white;
+  overflow-x: hidden;
+}
 
-    .tagline {
-      font-size: 18px;
-      color: #555;
-    }
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+}
 
-    .section {
-      padding: 50px 20px;
-    }
+.logo img {
+  height: 45px;
+  filter: drop-shadow(0 0 10px #8b5cf6);
+}
 
-    .section h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
+.nav-links a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
+}
 
-    .section p {
-      max-width: 600px;
-      margin: auto;
-      line-height: 1.6;
-      color: #444;
-    }
+.nav-links a:hover {
+  color: white;
+}
 
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 30px;
-    }
+/* SOCIALS */
+.socials a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
 
-    .card {
-      background: #FFFFFF;
-      margin: 15px;
-      padding: 25px;
-      width: 260px;
-      border-radius: 12px;
-      transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
+.socials a:hover {
+  color: white;
+  text-shadow: 0 0 10px #8b5cf6;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 120px 20px;
+}
 
-    .card h3 {
-      margin-bottom: 10px;
-    }
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #fff, #8b5cf6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-    .socials {
-      margin-top: 30px;
-    }
+.hero p {
+  margin-top: 10px;
+  color: #aaa;
+}
 
-    .socials a {
-      margin: 0 15px;
-      font-size: 24px;
-      color: #6BAF92;
-      transition: 0.3s;
-    }
+.hero button {
+  margin-top: 25px;
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    .socials a:hover {
-      color: #2E2E2E;
-    }
+.hero button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #8b5cf6;
+}
 
-    footer {
-      padding: 20px;
-      background: #E8EAD8;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+/* SLIDER */
+.quote-slider {
+  overflow: hidden;
+  margin: 60px 0;
+}
+
+.slider-track {
+  display: flex;
+  width: calc(300px * 10);
+  animation: scroll 25s linear infinite;
+}
+
+.slide {
+  width: 300px;
+  margin: 0 25px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  color: #ddd;
+  transition: 0.3s;
+}
+
+.slide:hover {
+  transform: scale(1.05);
+  color: white;
+  box-shadow: 0 0 20px rgba(139,92,246,0.5);
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* GALLERY */
+.gallery-section {
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.gallery-section h2 {
+  margin-bottom: 40px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  transition: 0.4s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #8b5cf6;
+}
+
+/* COMING SOON */
+.coming {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 260px;
+  padding: 25px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(139,92,246,0.4);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}
+
+.footer-socials {
+  margin-top: 10px;
+}
+
+.footer-socials a {
+  margin: 0 10px;
+  color: #777;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-socials a:hover {
+  color: #8b5cf6;
+}
+
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>The Think Room</h1>
-  <p class="tagline">Think Better • Live Lighter</p>
-</header>
-
-<!-- COMMUNITY -->
-<div class="section">
-  <h2>Building a Community 🌿</h2>
-  <p>
-    The Think Room is more than just a page.  
-    It’s a space where we pause, reflect, and grow together.  
-    We share thoughts that bring clarity, calm, and purpose to everyday life.
-  </p>
-</div>
-
-<!-- CONTENT -->
-<div class="section">
-  <h2>What We Share</h2>
-
-  <div class="cards">
-    <div class="card">
-      <h3>Quotes</h3>
-      <p>Simple words that stay with you and shift your perspective.</p>
-    </div>
-
-    <div class="card">
-      <h3>Lessons</h3>
-      <p>Real-life insights to help you grow and understand yourself better.</p>
-    </div>
-
-    <div class="card">
-      <h3>Book Insights</h3>
-      <p>Powerful ideas from books that can change how you see life.</p>
-    </div>
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <img src="images/logo.png">
   </div>
-</div>
 
-<!-- JOIN -->
-<div class="section">
-  <h2>Join the Journey</h2>
-  <p>Be part of a mindful community 🌿</p>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Quotes</a>
+    <a href="#">Lessons</a>
+  </div>
 
   <div class="socials">
-    <!-- Replace with your real links -->
-    <a href="https://instagram.com/the.think.room" target="_blank">
-      <i class="fab fa-instagram"></i>
-    </a>
-
-    <a href="https://x.com/the_think_room" target="_blank">
-      <i class="fab fa-twitter"></i>
-    </a>
+    <a href="https://instagram.com/the.think.room" target="_blank">IG</a>
+    <a href="https://x.com/the_think_room" target="_blank">X</a>
+    <a href="mailto:thethinkroom24@gmail.com">Mail</a>
   </div>
-</div>
+</nav>
 
+<!-- HERO -->
+<section class="hero">
+  <h1>Think Better. Live Lighter.</h1>
+  <p>A space for mindful people</p>
+  <button>Explore</button>
+</section>
+
+<!-- SLIDING QUOTES -->
+<section class="quote-slider">
+  <div class="slider-track">
+    <div class="slide">You are not behind in life.</div>
+    <div class="slide">Clarity comes from stillness.</div>
+    <div class="slide">Small thoughts create big change.</div>
+    <div class="slide">Think better, live lighter.</div>
+
+    <div class="slide">You are not behind in life.</div>
+    <div class="slide">Clarity comes from stillness.</div>
+    <div class="slide">Small thoughts create big change.</div>
+    <div class="slide">Think better, live lighter.</div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <h2>Quotes</h2>
+  <div class="gallery">
+    <img src="images/quote1.jpg">
+    <img src="images/quote2.jpg">
+    <img src="images/quote3.jpg">
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section class="coming">
+  <h2>Coming Soon</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Blogs</h3>
+      <p>Deep ideas & long-form thoughts.</p>
+    </div>
+    <div class="card">
+      <h3>Stories</h3>
+      <p>Short powerful perspective shifts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 The Think Room • Think Better • Live Lighter
+  <p>© The Think Room</p>
+
+  <div class="footer-socials">
+    <a href="https://instagram.com/the.think.room" target="_blank">Instagram</a>
+    <a href="https://x.com/the_think_room" target="_blank">Twitter</a>
+    <a href="mailto:thethinkroom24@gmail.com">Email</a>
+  </div>
 </footer>
 
 </body>
